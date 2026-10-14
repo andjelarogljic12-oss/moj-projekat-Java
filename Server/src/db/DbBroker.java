@@ -4,6 +4,9 @@
  */
 package db;
 
+import domain.JedinicaMere;
+import domain.Materijal;
+import domain.Musterija;
 import domain.Narudzbenica;
 import domain.StavkaNarudzbenice;
 import java.sql.Connection;
@@ -12,6 +15,8 @@ import java.sql.SQLException;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -97,6 +102,49 @@ public class DbBroker {
             ps.setDouble(3, kolicina);
             return ps.executeUpdate();
         }
+    }
+    
+    public List<Materijal> vratiMaterijale() throws SQLException {
+        List<Materijal> lista = new ArrayList<>();
+        String upit = "SELECT MaterijalID, NazivMaterijala, CenaBezPdv, CenaSaPdv, "
+                + "Stanje, JedinicaMere, PdvID FROM materijal ORDER BY NazivMaterijala";
+        try (Statement st = connection.createStatement();
+                ResultSet rs = st.executeQuery(upit)) {
+            while (rs.next()) {
+                Materijal m = new Materijal();
+                m.setMaterijalId(rs.getInt("MaterijalID"));
+                m.setNazivMaterijala(rs.getString("NazivMaterijala"));
+                m.setCenaBezPdv(rs.getDouble("CenaBezPdv"));
+                m.setCenaSaPdv(rs.getDouble("CenaSaPdv"));
+                m.setStanje(rs.getDouble("Stanje"));
+                m.setJedinicaMere(JedinicaMere.valueOf(rs.getString("JedinicaMere")));
+                m.setPdvId(rs.getInt("PdvID"));
+                lista.add(m);
+            }
+        }
+        return lista;
+    }
+    
+    public List<Musterija> vratiMusterije() throws SQLException{
+        List<Musterija> lista = new ArrayList<>();
+        
+        String upit = "SELECT MusterijaID, PIB, NazivFirme, VrstaMaterijala, " + 
+                "PotrebnaKolicina, JedinicaMere FROM musterija ORDER BY NazivFirme";
+        try(Statement st = connection.createStatement();
+                ResultSet rs = st.executeQuery(upit)){
+            
+            while (rs.next()){
+                Musterija m = new Musterija();
+                m.setMusterijaId(rs.getInt("MusterijaID"));
+                m.setPib(rs.getInt("PIB"));
+                m.setNazivFirme(rs.getString("NazivFirme"));
+                m.setVrstaMaterijala(rs.getString("VrstaMaterijala"));
+                m.setPotrebnaKolicina(rs.getDouble("PotrebnaKolicina"));
+                m.setJedinicaMere(JedinicaMere.valueOf(rs.getString("JedinicaMere")));
+                lista.add(m);
+            }
+        }
+        return lista;
     }
     
 }

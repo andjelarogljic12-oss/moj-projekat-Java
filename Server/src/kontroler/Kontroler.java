@@ -5,8 +5,12 @@
 package kontroler;
 
 import db.DbBroker;
+import domain.Materijal;
+import domain.Musterija;
 import domain.Narudzbenica;
 import domain.StavkaNarudzbenice;
+import java.sql.SQLException;
+import java.util.List;
 
 public class Kontroler {
 
@@ -36,5 +40,27 @@ public class Kontroler {
         } finally {
             db.zatvoriKonekciju();
         }
+    }
+    
+    public List<Materijal> vratiMaterijale () throws SQLException{
+        DbBroker db = new DbBroker();
+        try {
+            db.otvoriKonekciju();
+            return db.vratiMaterijale();
+        } finally {
+            db.zatvoriKonekciju();
+        }
+    }
+    
+    public List<Musterija> vratiMusterije() throws SQLException{
+        DbBroker db = new DbBroker();
+        
+        try {
+            db.otvoriKonekciju();
+            return db.vratiMusterije();
+        } finally {
+            db.zatvoriKonekciju();
+        }
+        
     }
 }

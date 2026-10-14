@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import kontroler.Kontroler;
@@ -61,12 +62,18 @@ public class KlijentNit extends Thread {
             case "SACUVAJ_NARUDZBENICU":
                 kontroler.sacuvajNarudzbenicu((Narudzbenica) zahtev.getPodaci());
                 return new Odgovor(true, "Narudzbenica je sacuvana", null);
+            case "VRATI_MATERIJALE":
+                return new Odgovor(true, "OK", new ArrayList<>(kontroler.vratiMaterijale()));
+            case "VRATI_MUSTERIJE":
+                return new Odgovor(true, "OK", new ArrayList<>(kontroler.vratiMusterije()));
+                
             default:
                 return new Odgovor(false, "Nepoznata operacija: " + zahtev.getOperacija(), null);
-                
+            
         }
 
         } catch (Exception e) {
+            e.printStackTrace();
             return new Odgovor(false, e.getMessage(), null);
         }
     }
