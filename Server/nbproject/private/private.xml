@@ -5,6 +5,7 @@
         <group>
             <file>file:/C:/projekti/moj_projekat_java/Server/src/server/KlijentNit.java</file>
             <file>file:/C:/projekti/moj_projekat_java/Server/src/kontroler/Kontroler.java</file>
+            <file>file:/C:/projekti/moj_projekat_java/Server/src/db/DbBroker.java</file>
             <file>file:/C:/projekti/moj_projekat_java/Server/src/server/Server.java</file>
         </group>
     </open-files>
